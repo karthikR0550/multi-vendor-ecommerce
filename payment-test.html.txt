@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Razorpay Payment Test</title>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+
+    <h2>Razorpay Test Payment</h2>
+
+    <p>
+        Use this page only for testing the
+        Multi-Vendor E-Commerce project.
+    </p>
+
+    <button id="payButton">
+        Pay Now
+    </button>
+
+    <hr>
+
+    <h3>Payment Result</h3>
+
+    <pre id="result">
+No payment attempted yet.
+    </pre>
+
+    <script>
+        /*
+         * Replace these values with the values
+         * returned by:
+         *
+         * POST /api/payments/create-order/
+         */
+
+       const keyId = "rzp_test_TtQ50Q1eQXoYR1";
+
+       const razorpayOrderId =
+          "order_Tu0iTDVLonMUqp";
+
+       const amount = 199900;
+
+        const options = {
+            key: keyId,
+
+            amount: amount,
+
+            currency: "INR",
+
+            name: "Multi-Vendor E-Commerce",
+
+            description: "Test Payment",
+
+            order_id: razorpayOrderId,
+
+            handler: function (response) {
+
+                document.getElementById(
+                    "result"
+                ).textContent =
+                    JSON.stringify(
+                        response,
+                        null,
+                        2
+                    );
+
+                console.log(
+                    "Payment successful:",
+                    response
+                );
+            },
+
+            prefill: {
+                name: "Test Buyer",
+                email: "customer2@example.com",
+                contact: "9876501234"
+            },
+
+            theme: {
+                color: "#3399cc"
+            }
+        };
+
+        document.getElementById(
+            "payButton"
+        ).onclick = function () {
+
+            const razorpay =
+                new Razorpay(options);
+
+            razorpay.open();
+        };
+    </script>
+
+</body>
+</html>
